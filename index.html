@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duelectica</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.4.0",
+    "react/": "https://esm.sh/react@^19.1.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="app">
+        <nav class="sidebar" aria-label="Main Navigation">
+            <div class="sidebar-title">Duelectica</div>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#statistik" aria-label="Statistik">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3,21H5V12H3V21M7,21H9V8H7V21M11,21H13V15H11V21M15,21H17V5H15V21M19,21H21V10H19V21Z" /></svg>
+                </a></li>
+                <li class="nav-item"><a href="#riwayat" aria-label="Riwayat">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" /></svg>
+                </a></li>
+                <li class="nav-item nav-item-beranda-icon active"><a href="#beranda" aria-label="Beranda">
+                    <svg viewBox="0 0 24 24" width="32" height="32">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        <polygon points="12,7 17,15 7,15" fill="currentColor"/>
+                    </svg>
+                </a></li>
+                <li class="nav-item"><a href="#profil" aria-label="Profil">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>
+                </a></li>
+                <li class="nav-item"><a href="#pengaturan" aria-label="Pengaturan">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19.14,12.94C19.03,12.42 18.81,11.94 18.49,11.51L18.41,11.43L19.29,10C19.64,9.54 19.78,8.93 19.57,8.36L18.17,6L15.42,4.8L14.73,5.19L12.94,6.5L12.06,6.07C11.54,5.97 11.06,5.75 10.62,5.43L10.54,5.35L9,4.46C8.46,4.12 7.84,4.25 7.37,4.62L6,6.17L4.8,8.58L5.19,9.27L6.5,11.06L6.07,11.94C5.97,12.46 5.75,12.94 5.43,13.38L5.35,13.46L4.46,15C4.12,15.54 4.25,16.16 4.62,16.63L6,17.83L8.58,19.2L9.27,18.81L11.06,17.5L11.94,17.93C12.46,18.03 12.94,18.25 13.38,18.57L13.46,18.65L15,19.54C15.54,19.88 16.16,19.75 16.63,19.38L17.83,18L19.2,15.42L18.81,14.73L17.5,12.94L17.93,12.06C18.03,11.58 18.25,11.06 18.57,10.62L19.14,12.94M12,9.5A2.5,2.5 0 0,0 9.5,12A2.5,2.5 0 0,0 12,14.5A2.5,2.5 0 0,0 14.5,12A2.5,2.5 0 0,0 12,9.5Z" /></svg>
+                </a></li>
+            </ul>
+        </nav>
+        <main id="main-content" class="content-view">
+            <!-- Beranda Section -->
+            <section id="beranda" class="page-section" aria-labelledby="beranda-main-title">
+                <h1 id="beranda-main-title" class="section-main-title">Duelectica</h1>
+                <p class="section-subtitle">Selamat datang di Duelectica, arena duel pemikiran di mana logika dan retorika beradu untuk menentukan siapa pemilik kata terakhir.</p>
+                <button id="start-game-btn" class="btn btn-primary btn-large">Mulai Permainan</button>
+            </section>
+
+            <!-- Game Setup Section -->
+            <section id="game-setup" class="page-section" style="display:none;" aria-labelledby="game-setup-title">
+                <h2 id="game-setup-title" class="section-main-title">Pengaturan Duel</h2>
+                <div class="setup-form-container">
+                    <div class="form-group">
+                        <label for="player-role-select">Pilih Kubu Anda:</label>
+                        <select id="player-role-select" class="form-control">
+                            <option value="Acak" selected>Acak</option>
+                            <option value="Proposisi">Proposisi (Mendukung Mosi)</option>
+                            <option value="Oposisi">Oposisi (Menentang Mosi)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="argument-duration-select">Durasi Tiap Argumen:</label>
+                        <select id="argument-duration-select" class="form-control">
+                            <option value="1">1 Menit</option>
+                            <option value="2">2 Menit</option>
+                            <option value="3" selected>3 Menit</option>
+                            <option value="5">5 Menit</option>
+                        </select>
+                    </div>
+                     <div class="form-group">
+                        <label for="ai-difficulty-select">Tingkat Kesulitan AI Lawan:</label>
+                        <select id="ai-difficulty-select" class="form-control">
+                            <option value="Amatir">Amatir</option>
+                            <option value="Pelajar" selected>Pelajar</option>
+                            <option value="Guru">Guru</option>
+                            <option value="Profesor">Profesor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mode Permainan:</label>
+                        <div class="form-control-static">VS AI (Kecerdasan Buatan)</div>
+                    </div>
+                    <button id="initiate-duel-btn" class="btn btn-primary btn-full-width">Mulai Duel</button>
+                </div>
+            </section>
+
+            <!-- Game Arena Section (Dynamic Content) -->
+            <section id="game-arena" class="page-section game-arena-section" style="display:none;" aria-live="polite">
+                <div id="game-arena-content">
+                    <!-- Content will be dynamically inserted by TSX -->
+                </div>
+            </section>
+
+            <!-- Game Results Section -->
+            <section id="game-results" class="page-section" style="display:none;" aria-labelledby="game-results-title">
+                <h2 id="game-results-title" class="section-main-title">Hasil Duel</h2>
+                <div id="results-summary">
+                    <p><strong>Mosi Debat:</strong> <span id="results-motion"></span></p>
+                    <p><strong>Pemenang:</strong> <span id="results-winner" class="winner-text"></span></p>
+                </div>
+                <div id="results-analysis-container">
+                    <h3>Analisis AI:</h3>
+                    <p id="results-analysis-text"></p>
+                </div>
+                <div id="results-table-container">
+                    <h3>Detail Argumen dan Skor:</h3>
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th>Pihak</th>
+                                <th>Jenis Argumen</th>
+                                <th class="argument-col">Argumen</th>
+                                <th class="analysis-col-header">Analisis Arg.</th>
+                                <th>Logika</th>
+                                <th>Retorika</th>
+                                <th>Relevansi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-table-body">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="results-actions">
+                    <button id="play-again-btn" class="btn btn-secondary">Main Lagi</button>
+                    <button id="back-to-home-btn" class="btn btn-primary">Kembali ke Beranda</button>
+                </div>
+            </section>
+            
+            <section id="riwayat" class="page-section" style="display:none;" aria-labelledby="riwayat-main-title">
+                 <h2 id="riwayat-main-title" class="section-main-title">Riwayat Permainan</h2>
+                 <div id="riwayat-content-container" class="history-list-container">
+                    <p id="no-riwayat-message" style="display:none;">Belum ada riwayat permainan.</p>
+                 </div>
+            </section>
+
+            <section id="statistik" class="page-section" style="display:none;" aria-labelledby="statistik-main-title">
+                 <h2 id="statistik-main-title" class="section-main-title">Statistik Duel</h2>
+                 <div id="statistik-content-container">
+                    <div id="stats-filter-select-container" class="form-group">
+                        <label for="stats-filter-select">Tampilkan Statistik Untuk:</label>
+                        <select id="stats-filter-select" class="form-control">
+                            <option value="all">Semua Duel</option>
+                            <option value="Proposisi">Sebagai Proposisi</option>
+                            <option value="Oposisi">Sebagai Oposisi</option>
+                        </select>
+                    </div>
+                    <div id="stats-cards-grid" class="stats-grid">
+                        <div class="stat-card"><h3>Win Rate</h3><p id="stat-win-rate">- %</p></div>
+                        <div class="stat-card"><h3>Total Kemenangan</h3><p id="stat-total-wins">-</p></div>
+                        <div class="stat-card"><h3>Total Kekalahan</h3><p id="stat-total-losses">-</p></div>
+                        <div class="stat-card"><h3>Total Seri</h3><p id="stat-total-draws">-</p></div>
+                        <div class="stat-card"><h3>Rata-rata Logika</h3><p id="stat-avg-logic">-</p></div>
+                        <div class="stat-card"><h3>Rata-rata Retorika</h3><p id="stat-avg-rhetoric">-</p></div>
+                        <div class="stat-card"><h3>Rata-rata Relevansi</h3><p id="stat-avg-relevance">-</p></div>
+                        <div class="stat-card"><h3>Total Duel</h3><p id="stat-total-games">-</p></div>
+                    </div>
+                    <p id="no-statistik-message" style="display:none;">Belum ada data statistik untuk ditampilkan. Mainkan beberapa duel terlebih dahulu.</p>
+                 </div>
+            </section>
+
+            <section id="profil" class="page-section" style="display:none;" aria-labelledby="profil-main-title">
+                 <h2 id="profil-main-title" class="section-main-title">Profil Pengguna</h2>
+                 <div class="profile-placeholder-content">
+                    <p>Pengaturan profil dan informasi pengguna akan tersedia di sini.</p>
+                     <p><em>(Fitur ini dalam pengembangan)</em></p>
+                 </div>
+            </section>
+
+            <section id="pengaturan" class="page-section" style="display:none;" aria-labelledby="pengaturan-main-title">
+                <h2 id="pengaturan-main-title" class="section-main-title">Pengaturan Aplikasi</h2>
+                <div class="settings-container">
+                    <div class="setting-group">
+                        <h3>Ukuran Font Area Debat</h3>
+                        <div class="setting-control font-size-adjuster">
+                            <button id="decrease-font-btn" class="btn btn-secondary btn-small" aria-label="Perkecil Ukuran Font">Perkecil (-)</button>
+                            <button id="reset-font-btn" class="btn btn-secondary btn-small" aria-label="Reset Ukuran Font">Reset Ukuran</button>
+                            <button id="increase-font-btn" class="btn btn-secondary btn-small" aria-label="Perbesar Ukuran Font">Perbesar (+)</button>
+                        </div>
+                        <p id="current-font-level-indicator" class="font-level-indicator">Ukuran Saat Ini: Normal</p>
+                        <div id="font-size-preview-area" class="font-preview">
+                            Ini adalah contoh teks pratinjau. Ukuran font ini akan berubah sesuai pengaturan di atas. Mosi: Keadilan lebih penting daripada ketertiban.
+                        </div>
+                    </div>
+                    <div class="setting-group">
+                        <h3>Manajemen Data</h3>
+                        <div class="setting-control data-management">
+                            <button id="export-data-btn" class="btn btn-secondary">Ekspor Riwayat</button>
+                            <label for="import-file-input" class="btn btn-secondary">Impor Riwayat</label>
+                            <input type="file" id="import-file-input" accept=".json">
+                            <button id="reset-data-btn" class="btn btn-danger">Reset Semua Data</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

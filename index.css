@@ -1,0 +1,860 @@
+/* General Resets and Base Styles */
+:root {
+    --bg-color: #0A0A0A;
+    --text-color: #E0E0E0;
+    --text-muted-color: #A0A0A0;
+    --sidebar-bg: #090909c7; /* Used for desktop sidebar and mobile bottom nav */
+    --sidebar-border: #1A1A1A;
+    --sidebar-title-color: #FFFFFF;
+    --nav-link-color: #A0A0A0;
+    --nav-link-hover-color: #FFFFFF;
+    --nav-link-active-color: #FFFFFF; /* Used for active text on desktop, and icon fill on mobile */
+    --nav-link-hover-bg: #1C1C1C;
+    --nav-link-active-bg-desktop: #141414; /* Desktop active item background */
+    --nav-link-active-underline: #FFFFFF; /* Still used for desktop underline */
+    --primary-accent: #4A0E0E; /* Dark red, good for Beranda button */
+    --primary-accent-hover: #6A1B1B;
+    --mobile-nav-active-bg: #D32F2F; /* Brighter red for mobile active items */
+    --secondary-accent: #282828;
+    --secondary-accent-hover: #383838;
+    --card-bg: #121212;
+    --card-border: #333;
+    --input-bg: #1E1E1E;
+    --input-border: #333;
+    --input-text-color: #E0E0E0;
+    --focus-outline-color: #FFFFFF;
+
+    --base-font-size-motion: 1.35em;
+    --base-font-size-status: 1.1em;
+    --base-font-size-timer: 1.25em;
+    --base-font-size-arg-bubble: 1em;
+    --base-font-size-arg-bubble-strong: 0.9em;
+    --base-font-size-arg-label: 1.15em;
+    --base-font-size-arg-textarea: 1em;
+    --base-font-size-reading-text: 1.1em;
+    --debate-font-scale-factor: 1;
+
+    --mobile-nav-height: 65px;
+    --mobile-nav-icon-size: 22px; /* Base size for SVG icons */
+    --mobile-nav-item-size: 44px; /* Touch target size for circular items */
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: var(--bg-color); 
+    color: var(--text-color);
+    overflow: hidden; 
+    font-size: 16px;
+}
+
+#app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sidebar Styling (Desktop) */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg); 
+    padding: 30px 25px; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    border-right: 1px solid var(--sidebar-border); 
+    box-shadow: 3px 0 8px rgba(0,0,0,0.1); 
+    height: 100vh; 
+    box-sizing: border-box;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.sidebar-title {
+    font-family: 'Merriweather', serif;
+    font-size: 1.6em; 
+    color: var(--sidebar-title-color);
+    font-weight: 700;
+    margin-bottom: 35px; 
+    text-align: left;
+    letter-spacing: 0.8px;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%; 
+}
+
+.nav-item a {
+    display: flex; 
+    align-items: center;
+    justify-content: flex-start; 
+    padding: 11px 8px; 
+    color: var(--nav-link-color); 
+    text-decoration: none;
+    font-size: 0.95em; 
+    font-family: 'EB Garamond', 'Times New Roman', serif; 
+    position: relative; 
+    margin-bottom: 8px; 
+    letter-spacing: 0.3px;
+    transition: color 0.4s ease, background-color 0.4s ease, letter-spacing 0.4s ease, transform 0.3s ease-out;
+    text-align: left;
+    border-radius: 4px; 
+}
+
+.nav-item a svg {
+    width: var(--mobile-nav-icon-size); 
+    height: var(--mobile-nav-icon-size);
+    fill: currentColor;
+    margin-right: 10px; 
+    transition: fill 0.3s ease;
+}
+
+
+.nav-item a::after { 
+    content: '';
+    position: absolute;
+    bottom: 5px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 1px;
+    background-color: var(--nav-link-active-underline);
+    transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
+
+.nav-item a:hover {
+    color: var(--nav-link-hover-color);
+    background-color: var(--nav-link-hover-bg); 
+    letter-spacing: 0.5px; 
+    transform: translateY(-2px); 
+}
+.nav-item a:hover svg {
+    fill: var(--nav-link-hover-color);
+}
+
+
+.nav-item.active a { /* Desktop active state */
+    color: var(--nav-link-active-color);
+    font-weight: 700; 
+    background-color: var(--nav-link-active-bg-desktop); 
+    letter-spacing: 0.5px;
+    transform: translateY(-1px); 
+}
+.nav-item.active a svg {
+    fill: var(--nav-link-active-color);
+}
+.nav-item a:hover::after,
+.nav-item.active a::after { 
+    width: 65%; 
+}
+
+.nav-item-beranda-icon a { 
+    /* Desktop: special treatment if needed, or defaults to .nav-item a */
+}
+/* For mobile, .nav-item-beranda-icon.active a is handled by the general .nav-item.active a */
+.nav-item-beranda-icon.active a::after { /* No underline for beranda icon on desktop if it's active */
+    width: 0; 
+}
+
+
+/* Content View Styling */
+.content-view {
+    flex: 1;
+    overflow-y: auto; 
+    position: relative; 
+    height: 100vh; 
+    box-sizing: border-box;
+}
+
+.page-section {
+    width: 100%;
+    min-height: 100%; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    text-align: center;
+    padding: 30px; 
+    box-sizing: border-box; 
+    position: relative; 
+}
+
+/* Beranda Background Styling */
+#beranda {
+    background-image: url('https://i.pinimg.com/736x/b8/93/f8/b893f838f813306e28058ae3c6ff4c28.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+#beranda::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.65); 
+    z-index: 1; 
+}
+
+#beranda > * {
+    position: relative;
+    z-index: 2;
+}
+
+
+#game-arena, #game-results, #riwayat, #statistik, #profil, #pengaturan {
+    justify-content: flex-start; 
+    align-items: flex-start;
+}
+
+
+.section-main-title {
+    font-family: 'Merriweather', serif;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem); 
+    color: var(--text-color);
+    margin-bottom: 25px; 
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    width: 100%; 
+    text-align: center;
+}
+
+.section-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: var(--text-muted-color);
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Button Styling */
+.btn {
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 25px; 
+    font-size: 0.9em; 
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-family: 'EB Garamond', serif;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-accent); 
+    color: #FFFFFF;
+}
+.btn-primary:hover {
+    background-color: var(--primary-accent-hover);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-accent); 
+    color: var(--text-color);
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-accent-hover);
+}
+
+.btn-danger {
+    background-color: #A00000;
+    color: #FFFFFF;
+}
+.btn-danger:hover {
+    background-color: #C00000;
+}
+
+
+.btn-large {
+    padding: 14px 35px;
+    font-size: 1.05em;
+}
+.btn-full-width {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 18px;
+}
+.btn-small {
+    padding: 6px 12px;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+}
+
+
+/* Game Setup Form */
+.setup-form-container {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    color: var(--text-muted-color);
+    font-family: 'EB Garamond', serif;
+}
+.form-control, .form-control-static {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+    color: var(--input-text-color);
+    font-size: 1em;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+.form-control-static {
+    background-color: transparent;
+    border: none;
+    padding-left: 0;
+    color: var(--text-muted-color);
+}
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A0A0A0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    background-size: 1em;
+    padding-right: 2.5rem; 
+}
+
+/* Game Arena Styling */
+.game-arena-section { padding-top: 20px; }
+#game-arena-content {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.motion-display-class {
+    font-family: 'Merriweather', serif;
+    font-size: calc(var(--base-font-size-motion) * var(--debate-font-scale-factor)); 
+    color: var(--text-color);
+    padding: 14px 18px;
+    background-color: var(--card-bg); 
+    border-left: 5px solid var(--primary-accent);
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.55;
+}
+
+.player-role-indicator-class, .opponent-status-class, .timer-display-class {
+    font-family: 'EB Garamond', serif;
+    font-size: calc(var(--base-font-size-status) * var(--debate-font-scale-factor)); 
+    color: var(--text-muted-color);
+    text-align: center;
+    padding: 8px;
+    background-color: var(--secondary-accent); 
+    border-radius: 5px;
+}
+.timer-display-class {
+    font-weight: bold;
+    color: var(--text-color); 
+    font-size: calc(var(--base-font-size-timer) * var(--debate-font-scale-factor));
+}
+.countdown-display-class { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,0.92); 
+    padding: 30px 50px;
+    border-radius: 12px;
+    z-index: 1010; 
+    font-size: 1.9em; 
+    color: #FFFFFF; 
+    font-family: 'Merriweather', serif;
+    display: none; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255,255,255,0.1);
+}
+
+
+#argument-history-container {
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: var(--bg-color); 
+    border: 1px solid var(--input-border); 
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.argument-bubble {
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 82%;
+    line-height: 1.55;
+    font-size: calc(var(--base-font-size-arg-bubble) * var(--debate-font-scale-factor)); 
+    color: var(--text-color); 
+}
+.argument-bubble strong {
+    font-family: 'Merriweather', serif;
+    display: block;
+    margin-bottom: 5px;
+    font-size: calc(var(--base-font-size-arg-bubble-strong) * var(--debate-font-scale-factor)); 
+}
+.argument-bubble.player {
+    background-color: var(--primary-accent); 
+    align-self: flex-end;
+    color: #FFFFFF; 
+}
+.argument-bubble.opponent {
+    background-color: var(--secondary-accent); 
+    align-self: flex-start;
+}
+/* This class is for analysis text within bubbles, which is now removed from live display */
+/* .argument-analysis-text { ... } */
+
+
+#topic-selection-container, #argument-input-container, #reading-phase-container {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+#argument-input-container label, #topic-selection-container label {
+    font-family: 'Merriweather', serif;
+    font-size: calc(var(--base-font-size-arg-label) * var(--debate-font-scale-factor)); 
+    color: var(--text-muted-color); 
+}
+#argument-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid var(--input-border);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+    color: var(--input-text-color);
+    font-size: calc(var(--base-font-size-arg-textarea) * var(--debate-font-scale-factor)); 
+    font-family: 'Times New Roman', Times, serif;
+    min-height: 120px;
+    resize: vertical;
+}
+#reading-argument-text {
+    font-size: calc(var(--base-font-size-reading-text) * var(--debate-font-scale-factor)); 
+    line-height: 1.65;
+    color: var(--text-color); 
+    background-color: var(--bg-color); 
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid var(--text-muted-color);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+
+/* Game Results Styling */
+#game-results { text-align: left; width: 100%; max-width: 900px; margin: 0 auto; }
+#results-summary {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border-left: 5px solid var(--primary-accent);
+}
+#results-summary p { margin: 8px 0; font-size: 1.1em; color: var(--text-color); }
+#results-summary strong { color: var(--text-color); font-family: 'Merriweather', serif; }
+
+.winner-text { font-weight: bold; font-size: 1.2em; }
+.winner-text.player-win { color: #81c784; }
+.winner-text.ai-win { color: #e57373; }
+.winner-text.draw { color: #fff176; }
+.winner-text.error { color: #ffb74d; }
+
+
+#results-analysis-container { margin-bottom: 25px; }
+#results-analysis-container h3 {
+    font-family: 'Merriweather', serif;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--input-border);
+    padding-bottom: 5px;
+    font-size: 1.25em;
+}
+#results-analysis-text {
+    font-size: 1em; 
+    line-height: 1.65;
+    color: var(--text-muted-color);
+    background-color: var(--bg-color); 
+    padding: 15px;
+    border-radius: 5px;
+    white-space: pre-wrap; /* Preserve line breaks from JS */
+}
+
+#results-table-container h3 {
+    font-family: 'Merriweather', serif;
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 1.25em;
+}
+#results-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+#results-table th, #results-table td {
+    border: 1px solid var(--input-border);
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.95em; 
+    vertical-align: top;
+}
+#results-table th {
+    background-color: var(--secondary-accent);
+    color: var(--text-color);
+    font-family: 'EB Garamond', serif;
+    font-weight: bold;
+}
+#results-table th.analysis-col-header { /* Style for the new header if needed */
+    /* e.g., min-width: 150px; */
+}
+
+
+#results-table td {
+    background-color: var(--card-bg); 
+    color: var(--text-muted-color);
+}
+#results-table td.argument-col { min-width: 250px; max-width: 400px; word-break: break-word; white-space: pre-wrap; }
+#results-table td.analysis-col {
+    min-width: 150px;
+    max-width: 250px;
+    font-size: 0.85em;
+    font-style: italic;
+    color: #b0b0b0; /* Slightly brighter than text-muted for readability */
+    white-space: pre-wrap;
+}
+
+#results-table td:nth-child(5), /* Logika */
+#results-table td:nth-child(6), /* Retorika */
+#results-table td:nth-child(7) { /* Relevansi */
+    text-align: center; 
+    font-weight: bold; 
+}
+.results-actions { display: flex; justify-content: center; gap: 18px; margin-top: 20px; }
+
+
+/* Riwayat (History) Styling */
+#riwayat { width: 100%; max-width: 900px; margin: 0 auto; }
+.history-list-container { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+.history-item-card {
+    background-color: var(--card-bg);
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--card-border); 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.history-item-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.history-item-card h4 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.15em;
+    color: var(--text-color);
+    margin-top: 0;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    max-height: 4.2em; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.history-item-card p { font-size: 0.9em; color: var(--text-muted-color); margin: 4px 0; font-family: 'EB Garamond', serif; }
+.history-item-card .winner.player-win { color: #81c784; }
+.history-item-card .winner.ai-win { color: #e57373; }
+.history-item-card .winner.draw { color: #fff176; }
+.history-item-actions { margin-top: 12px; text-align: right; }
+
+
+/* Statistik (Statistics) Styling */
+#statistik { width: 100%; max-width: 900px; margin: 0 auto; }
+#statistik-content-container { width: 100%; margin-top: 15px; }
+#stats-filter-select-container { margin-bottom: 25px; max-width: 350px; margin-left: auto; margin-right: auto; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+.stat-card {
+    background-color: var(--card-bg);
+    padding: 18px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.stat-card h3 { font-family: 'Merriweather', serif; font-size: 1.05em; color: var(--text-muted-color); margin-top: 0; margin-bottom: 8px; }
+.stat-card p { font-size: 1.5em; font-weight: bold; color: var(--text-color); margin: 0; font-family: 'EB Garamond', serif; }
+
+
+/* Profil Placeholder */
+.profile-placeholder-content {
+    padding: 20px;
+    border: 1px dashed var(--card-border);
+    border-radius: 5px;
+    background-color: var(--card-bg);
+    color: var(--text-muted-color);
+    max-width: 600px;
+    text-align: center;
+    font-size: 0.95em;
+    margin: 20px auto;
+}
+.profile-placeholder-content p { margin-bottom: 10px; line-height: 1.5; }
+
+
+/* Pengaturan Styling */
+#pengaturan {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+.settings-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.setting-group {
+    background-color: var(--card-bg);
+    padding: 20px 25px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+}
+.setting-group h3 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--input-border);
+    padding-bottom: 8px;
+}
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.setting-control.data-management {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px; 
+}
+.setting-control.data-management > .btn,
+.setting-control.data-management > label.btn {
+    margin-bottom: 0; 
+}
+.setting-control.data-management > .btn-danger {
+    margin-top: 10px; 
+    flex-basis: 100%; 
+    text-align: center;
+}
+
+
+.font-size-adjuster .btn {
+    min-width: 120px; 
+}
+.font-level-indicator {
+    font-size: 0.9em;
+    color: var(--text-muted-color);
+    margin-left: auto; 
+}
+.font-preview {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px dashed var(--input-border);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+    color: var(--text-muted-color);
+    line-height: 1.6;
+    font-size: calc(1em * var(--debate-font-scale-factor)); 
+    transition: font-size 0.3s ease;
+}
+
+input[type="file"] { 
+    display: none; 
+}
+
+
+/* Accessibility: Focus visible */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--focus-outline-color);
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body, html { font-size: 14.5px; }
+    #app { flex-direction: column-reverse; }
+    
+    .sidebar { 
+        width: 100%;
+        height: var(--mobile-nav-height); 
+        background-color: var(--sidebar-bg);
+        border-right: none;
+        border-top: 1px solid var(--sidebar-border); 
+        padding: 0 5px; 
+        flex-direction: row;
+        align-items: center; 
+        justify-content: space-around;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
+    }
+    .sidebar-title { display: none; }
+    .nav-list { display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%; height: 100%; gap: 5px; }
+    .nav-item { flex: 1; display: flex; justify-content: center; align-items: center; height: 100%;}
+    
+    /* General style for all nav items in mobile, including Beranda */
+    .nav-item a { 
+        padding: 0; 
+        margin-bottom: 0; 
+        text-align: center; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: var(--mobile-nav-item-size); /* Circular area */
+        width: var(--mobile-nav-item-size);  /* Circular area */
+        border-radius: 50%; /* Make it circular */
+        background-color: transparent; /* No background for inactive */
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        transform: translateY(0); /* Reset any default transform */
+        box-shadow: none; /* Reset any default shadow */
+        border: none; /* Reset any default border */
+    }
+    .nav-item a svg { 
+        width: var(--mobile-nav-icon-size); 
+        height: var(--mobile-nav-icon-size);
+        margin-right: 0; 
+        margin-bottom: 0; 
+        fill: var(--nav-link-color); /* Default icon color */
+        transition: fill 0.3s ease;
+    }
+    .nav-item a:hover { 
+        transform: translateY(0); 
+        background-color: transparent; 
+    }
+     .nav-item a:hover svg { 
+        fill: var(--nav-link-hover-color);
+    }
+
+    /* Active state for ALL nav items in mobile (including Beranda) */
+    .nav-item.active a { 
+        transform: translateY(0); 
+        background-color: var(--mobile-nav-active-bg); 
+    }
+    .nav-item.active a svg {
+        fill: var(--nav-link-active-color); 
+    }
+    .nav-item a::after { display: none; } 
+
+    .content-view { 
+        height: calc(100vh - var(--mobile-nav-height)); 
+        min-height: calc(100vh - var(--mobile-nav-height));
+        padding-bottom: var(--mobile-nav-height); 
+        box-sizing: border-box;
+    }
+    .page-section { padding: 15px; }
+    .section-main-title { font-size: clamp(1.3rem, 5vw, 1.9rem); margin-bottom: 15px; }
+    .section-subtitle { font-size: clamp(0.75rem, 3vw, 0.9rem); margin-bottom: 20px; }
+    .btn { padding: 8px 12px; font-size: 0.85em; } 
+    .btn-large { padding: 10px 20px; font-size: 0.9em; }
+    .btn-small { padding: 6px 10px; font-size: 0.75em;}
+
+    .setup-form-container { padding: 15px; }
+    .form-group label { font-size: 0.8em; }
+    .form-control { font-size: 0.85em; padding: 7px 9px; }
+    select.form-control { background-position: right 0.5rem center; padding-right: 1.8rem; }
+
+    .motion-display-class { font-size: calc(var(--base-font-size-motion) * var(--debate-font-scale-factor) * 0.8); padding: 9px 11px; line-height: 1.4; }
+    .player-role-indicator-class, .opponent-status-class, .timer-display-class { font-size: calc(var(--base-font-size-status) * var(--debate-font-scale-factor) * 0.8); padding: 6px;}
+    .timer-display-class { font-size: calc(var(--base-font-size-timer) * var(--debate-font-scale-factor) * 0.8); }
+    .countdown-display-class { padding: 18px 25px; font-size: 1.2em;}
+
+    #argument-history-container { max-height: 160px; padding: 7px; }
+    .argument-bubble { max-width: 90%; font-size: calc(var(--base-font-size-arg-bubble) * var(--debate-font-scale-factor) * 0.85); padding: 7px 9px; line-height: 1.4; }
+    .argument-bubble strong { font-size: calc(var(--base-font-size-arg-bubble-strong) * var(--debate-font-scale-factor) * 0.85); }
+    /* .argument-analysis-text is not rendered live anymore */
+
+    #argument-input-container label, #topic-selection-container label { font-size: calc(var(--base-font-size-arg-label) * var(--debate-font-scale-factor) * 0.85); }
+    #argument-textarea { min-height: 80px; font-size: calc(var(--base-font-size-arg-textarea) * var(--debate-font-scale-factor) * 0.85); padding: 7px 9px;}
+    #reading-argument-text { font-size: calc(var(--base-font-size-reading-text) * var(--debate-font-scale-factor) * 0.85); padding: 9px; line-height: 1.5; max-height: 220px;}
+
+    #results-summary { padding: 12px; }
+    #results-summary p { font-size: 0.9em; }
+    .winner-text { font-size: 1em; }
+    #results-analysis-container h3, #results-table-container h3 { font-size: 1.05em; }
+    #results-analysis-text { font-size: 0.85em; padding: 10px; }
+    #results-table th, #results-table td { padding: 6px 8px; font-size: 0.8em; }
+    #results-table td.argument-col { min-width: 100px; max-width: 150px;} /* Adjusted for mobile with new column */
+    #results-table td.analysis-col { min-width: 80px; max-width: 120px; font-size: 0.75em;}
+    .results-actions { flex-direction: column; }
+    .results-actions .btn { width: 100%; margin-bottom: 8px; }
+    
+    #stats-filter-select-container { max-width: 95%; } 
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .stat-card { padding: 10px; }
+    .stat-card h3 { font-size: 0.75em; margin-bottom: 4px; } 
+    .stat-card p { font-size: 1.1em; } 
+
+    .history-item-card { padding: 10px 12px;}
+    .history-item-card h4 { font-size: 1em;}
+    .history-item-card p { font-size: 0.8em; }
+
+    .setting-group { padding: 15px; }
+    .setting-group h3 { font-size: 1.1em; }
+    .setting-control { flex-direction: column; align-items: stretch; }
+    .setting-control.data-management {
+        flex-direction: row; 
+        justify-content: flex-start; 
+    }
+    .setting-control.data-management > .btn, 
+    .setting-control.data-management > label.btn {
+        flex-grow: 1; 
+        margin-bottom: 0; 
+        text-align: center;
+    }
+     .setting-control.data-management > .btn-danger {
+        flex-basis: 100%; 
+        margin-top: 10px;
+    }
+
+
+    .font-size-adjuster { flex-direction: row; justify-content: space-between;}
+    .font-size-adjuster .btn { width: auto; flex-grow: 1; margin: 0 2px;}
+    .font-level-indicator { text-align: center; width: 100%; margin-top: 5px; }
+    .font-preview { font-size: calc(0.9em * var(--debate-font-scale-factor)); }
+}
